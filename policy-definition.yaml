@@ -1,5 +1,5 @@
 #%Policy Definition 0.1
-name: Custom Policy for Flex Gateway
+name: Custom Flex Gateway Policy
 description: Example custom policy for Flex Gateway.
 category: Transformation
 providedCharacteristics: []

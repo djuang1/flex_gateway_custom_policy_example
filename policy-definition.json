@@ -1,5 +1,5 @@
 {
-    "title": "Custom Policy Example",
+    "title": "Custom Flex Gateway Policy",
     "type": "object",
     "description": "Example custom policy for Flex Gateway",
     "properties": {
@@ -18,7 +18,7 @@
       }
     },
     "required": [
-      "function_name","aws_secret"
+      "property_name","secure_property_name"
     ],
     "unevaluatedProperties": false,
     "@context": {
