@@ -2,6 +2,42 @@ use proxy_wasm::traits::*;
 use proxy_wasm::types::*;
 use serde::Deserialize;
 
+use root_context::HeaderSetRoot;
+
+mod config;
+mod http_context;
+mod root_context;
+mod flex_abi;
+
+#[no_mangle]
+pub fn _start() {
+    start();
+}
+
+pub fn start() {
+    proxy_wasm::set_log_level(LogLevel::Trace);
+    proxy_wasm::set_root_context(|_| -> Box<dyn RootContext> { Box::new(HeaderSetRoot::new()) });
+}
+
+#[no_mangle]
+pub fn flex_abi_version_0_1_0() {}
+
+#[no_mangle]
+pub fn flex_on_policy_initialize() -> bool {
+    // we need to define how that
+    flex_abi::log_info("Policy Initialize".to_string());
+
+	let user = flex_abi::get_env("USER".to_string());
+
+	flex_abi::log_info(format!("Running as user {}", user.unwrap_or("".to_string())));
+    
+	flex_abi::log_info("Creating test service".to_string());
+	flex_abi::service_create("test".to_string(), "default".to_string(), "https://www.google.com".to_string());
+
+    return true
+}
+
+
 proxy_wasm::main! {{
     proxy_wasm::set_log_level(LogLevel::Trace);
     proxy_wasm::set_root_context(|_| -> Box<dyn RootContext> {
